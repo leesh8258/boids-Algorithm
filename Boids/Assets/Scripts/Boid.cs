@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class Boid : MonoBehaviour
 {
-    private Collider[] detectNeighborList = new Collider[100];
+    private Collider[] detectNeighborList;
 
     public List<Transform> detectList = new List<Transform>();
     public List<Transform> separationList = new List<Transform>();
 
-
     private void Start()
     {
+        detectNeighborList = new Collider[BoidsSpawner.Instance.boidsMaxCount];
         GetNeighbor();
         StartCoroutine(StartGetNeighbor());
     }

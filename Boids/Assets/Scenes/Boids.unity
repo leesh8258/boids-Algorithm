@@ -270,11 +270,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4766165093861004271, guid: f4cd2b20e2361d5469aa946f622096fa, type: 3}
-  initCount: 500
+  initCount: 1000
   initRadius: 20
-  detectRadius: 15
-  separationRadius: 10
+  boidsMaxCount: 25
+  detectRadius: 5
+  separationRadius: 2
   speed: 10
+  maxRadius: 20
+  boundaryForce: 3
   boids: []
 --- !u!4 &379045210
 Transform:
