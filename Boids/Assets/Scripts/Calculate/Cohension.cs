@@ -3,8 +3,18 @@ using UnityEngine;
 
 public class Cohension : ICalculate
 {
-    public Vector3 Calculate(Transform self, List<Transform> neighbor)
+    public Vector3 Calculate(Transform self, List<Transform> neighbors)
     {
-        return Vector3.zero;
+        if(self == null || neighbors == null) return Vector3.zero;
+
+        Vector3 avgPosition = Vector3.zero;
+
+        foreach(var neighbor in neighbors)
+        {
+            avgPosition += neighbor.position;
+        }
+
+        avgPosition /= neighbors.Count;
+        return (avgPosition - self.position).normalized;
     }
 }

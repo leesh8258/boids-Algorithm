@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3218756}
   - component: {fileID: 3218755}
+  - component: {fileID: 3218757}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -216,6 +217,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &3218757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &379045208
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 379045210}
   - component: {fileID: 379045209}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,9 +269,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0767cef063a304289a6d5baa284343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  InitCount: 0
-  InitRadius: 0
+  prefab: {fileID: 4766165093861004271, guid: f4cd2b20e2361d5469aa946f622096fa, type: 3}
+  initCount: 500
+  initRadius: 20
+  detectRadius: 15
+  separationRadius: 10
+  speed: 10
+  boids: []
 --- !u!4 &379045210
 Transform:
   m_ObjectHideFlags: 0
