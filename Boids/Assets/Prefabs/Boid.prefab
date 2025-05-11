@@ -123,3 +123,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectList: []
   separationList: []
+  egoNormalVector: {x: 0, y: 0, z: 0}
+  viewAngle: 240

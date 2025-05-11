@@ -18,7 +18,13 @@ public class BoidsSpawner : MonoBehaviour
 
     [Header("Map Setting")]
     [SerializeField] private float maxRadius;
-    [SerializeField] private float boundaryForce;
+
+    [Header("Boid Weight Setting")]
+    [Range(0f, 10f), SerializeField] private float separationWeight;
+    [Range(0f, 10f), SerializeField] private float alignmentWeight;
+    [Range(0f, 10f), SerializeField] private float cohensionWeight;
+    [Range(0f, 1f), SerializeField] private float egoWeight;
+    [Range(1f, 10f), SerializeField] private float boundaryWeight;
 
     private ICalculate Separation, Alignment, Cohension;
     public List<GameObject> boids = new List<GameObject>();
@@ -49,19 +55,18 @@ public class BoidsSpawner : MonoBehaviour
             Boid boidComponent = boid.GetComponent<Boid>();
             Vector3 dir;
 
-            dir = Alignment.Calculate(boid.transform, boidComponent.detectList);
-            dir += Cohension.Calculate(boid.transform, boidComponent.detectList);
-            dir += Separation.Calculate(boid.transform, boidComponent.separationList);
+            dir = Alignment.Calculate(boid.transform, boidComponent.detectList) * alignmentWeight;
+            dir += Cohension.Calculate(boid.transform, boidComponent.detectList) * cohensionWeight;
+            dir += Separation.Calculate(boid.transform, boidComponent.separationList) * separationWeight;
 
             if(maxRadius < boid.transform.position.magnitude)
             {
                 Vector3 offset = boid.transform.position - Vector3.zero;
-                dir += offset.normalized * (maxRadius - offset.magnitude) * boundaryForce;
+                dir += offset.normalized * (maxRadius - offset.magnitude) * boundaryWeight;
             }
 
+            dir += boidComponent.egoNormalVector * egoWeight;
             //장애물
-            //boid 개인 dir 설정
-            //가중치
 
 
             dir = Vector3.Lerp(boid.transform.forward, dir, Time.deltaTime);

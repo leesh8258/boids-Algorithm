@@ -272,12 +272,16 @@ MonoBehaviour:
   prefab: {fileID: 4766165093861004271, guid: f4cd2b20e2361d5469aa946f622096fa, type: 3}
   initCount: 1000
   initRadius: 20
-  boidsMaxCount: 25
+  boidsMaxCount: 50
   detectRadius: 5
-  separationRadius: 2
+  separationRadius: 3
   speed: 10
   maxRadius: 20
-  boundaryForce: 3
+  separationWeight: 1
+  alignmentWeight: 1
+  cohensionWeight: 1
+  egoWeight: 0.2
+  boundaryWeight: 1
   boids: []
 --- !u!4 &379045210
 Transform:
