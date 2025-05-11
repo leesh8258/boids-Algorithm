@@ -9,15 +9,19 @@ public class Boid : MonoBehaviour
     public List<Transform> detectList = new List<Transform>();
     public List<Transform> separationList = new List<Transform>();
     public Vector3 egoNormalVector = Vector3.zero;
+    public float additionalSpeed = 0f;
 
-    [Range(1f, 360f), SerializeField] private float viewAngle;
-    
     private void Start()
     {
         detectNeighborList = new Collider[BoidsSpawner.Instance.boidsMaxCount];
         GetNeighbor();
         StartCoroutine(StartGetNeighbor());
         StartCoroutine(SetEgoVector());
+    }
+
+    private void Update()
+    {
+        if(additionalSpeed > 0) additionalSpeed -= Time.deltaTime;
     }
 
     private IEnumerator StartGetNeighbor()
@@ -43,13 +47,11 @@ public class Boid : MonoBehaviour
         detectList.Clear();
         separationList.Clear();
 
-        //부채꼴 형태로 가능하도록 변경
-
         int count = Physics.OverlapSphereNonAlloc(transform.position, BoidsSpawner.Instance.detectRadius, detectNeighborList);
         for (int i = 0; i < count; i++)
         {
             Vector3 toTarget = (detectNeighborList[i].transform.position - transform.position).normalized;
-            float cosThreshold = Mathf.Cos(viewAngle * 0.5f * Mathf.Deg2Rad);
+            float cosThreshold = Mathf.Cos(BoidsSpawner.Instance.viewAngle * 0.5f * Mathf.Deg2Rad);
 
             if (detectNeighborList[i].gameObject == this.gameObject) continue;
             if (Vector3.Dot(transform.forward, toTarget) < cosThreshold) continue;

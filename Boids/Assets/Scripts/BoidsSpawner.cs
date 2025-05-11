@@ -4,6 +4,9 @@ using UnityEngine;
 public class BoidsSpawner : MonoBehaviour
 {
     public static BoidsSpawner Instance;
+
+    private ICalculate Separation, Alignment, Cohension, Obstacle;
+    private List<GameObject> boids = new List<GameObject>();
     
     [Header("Spawner Init")]
     [SerializeField] private GameObject prefab;
@@ -15,6 +18,8 @@ public class BoidsSpawner : MonoBehaviour
     public float detectRadius;
     public float separationRadius;
     public float speed;
+    [Range(1f, 360f)] public float viewAngle;
+    [Range(1f, 10f)] public float dodgeObstacleDistance;
 
     [Header("Map Setting")]
     [SerializeField] private float maxRadius;
@@ -23,11 +28,13 @@ public class BoidsSpawner : MonoBehaviour
     [Range(0f, 10f), SerializeField] private float separationWeight;
     [Range(0f, 10f), SerializeField] private float alignmentWeight;
     [Range(0f, 10f), SerializeField] private float cohensionWeight;
+    [Range(0f, 20f), SerializeField] private float obstacleWeight;
     [Range(0f, 1f), SerializeField] private float egoWeight;
     [Range(1f, 10f), SerializeField] private float boundaryWeight;
 
-    private ICalculate Separation, Alignment, Cohension;
-    public List<GameObject> boids = new List<GameObject>();
+    [Header("Obstacle setting")]
+    public LayerMask targetMask;
+    public float dodgeSpeed;
 
     private void Awake()
     {
@@ -36,6 +43,7 @@ public class BoidsSpawner : MonoBehaviour
         Separation = new Separation();
         Alignment = new Alignment();
         Cohension = new Cohension();
+        Obstacle = new Obstacle();
 
         for(int i = 0; i < initCount; i++)
         {
@@ -58,6 +66,8 @@ public class BoidsSpawner : MonoBehaviour
             dir = Alignment.Calculate(boid.transform, boidComponent.detectList) * alignmentWeight;
             dir += Cohension.Calculate(boid.transform, boidComponent.detectList) * cohensionWeight;
             dir += Separation.Calculate(boid.transform, boidComponent.separationList) * separationWeight;
+            dir += Obstacle.Calculate(boid.transform, boidComponent.detectList) * obstacleWeight;
+            dir += boidComponent.egoNormalVector * egoWeight;
 
             if(maxRadius < boid.transform.position.magnitude)
             {
@@ -65,14 +75,10 @@ public class BoidsSpawner : MonoBehaviour
                 dir += offset.normalized * (maxRadius - offset.magnitude) * boundaryWeight;
             }
 
-            dir += boidComponent.egoNormalVector * egoWeight;
-            //Àå¾Ö¹°
-
-
             dir = Vector3.Lerp(boid.transform.forward, dir, Time.deltaTime);
             dir.Normalize();
 
-            boid.transform.position += dir * speed * Time.deltaTime;
+            boid.transform.position += dir * (speed + boidComponent.additionalSpeed) * Time.deltaTime;
             boid.transform.rotation = Quaternion.LookRotation(dir);
         }
     }
