@@ -10,6 +10,7 @@ public class Boid : MonoBehaviour
     public List<Transform> separationList = new List<Transform>();
     public Vector3 egoNormalVector = Vector3.zero;
     public float additionalSpeed = 0f;
+    public bool isDodging = false;
 
     private void Start()
     {
@@ -17,6 +18,11 @@ public class Boid : MonoBehaviour
         GetNeighbor();
         StartCoroutine(StartGetNeighbor());
         StartCoroutine(SetEgoVector());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     private void Update()

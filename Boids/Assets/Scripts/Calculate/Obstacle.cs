@@ -12,8 +12,8 @@ public class Obstacle : ICalculate
         if(Physics.Raycast(self.position, self.forward, out hit, BoidsSpawner.Instance.dodgeObstacleDistance, BoidsSpawner.Instance.targetMask))
         {
             Debug.DrawLine(self.position, hit.point, Color.black);
+            boid.isDodging = true;
             obstacleVec = hit.normal;
-            boid.additionalSpeed = BoidsSpawner.Instance.dodgeSpeed;
         }
 
         return obstacleVec;

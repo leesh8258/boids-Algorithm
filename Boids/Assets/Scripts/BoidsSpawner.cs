@@ -33,8 +33,8 @@ public class BoidsSpawner : MonoBehaviour
     [Range(1f, 10f), SerializeField] private float boundaryWeight;
 
     [Header("Obstacle setting")]
+    [SerializeField] private float dodgeSpeed;
     public LayerMask targetMask;
-    public float dodgeSpeed;
 
     private void Awake()
     {
@@ -61,6 +61,7 @@ public class BoidsSpawner : MonoBehaviour
         foreach (GameObject boid in boids)
         {
             Boid boidComponent = boid.GetComponent<Boid>();
+            boidComponent.isDodging = false;
             Vector3 dir;
 
             dir = Alignment.Calculate(boid.transform, boidComponent.detectList) * alignmentWeight;
@@ -75,6 +76,7 @@ public class BoidsSpawner : MonoBehaviour
                 dir += offset.normalized * (maxRadius - offset.magnitude) * boundaryWeight;
             }
 
+            if (boidComponent.isDodging) boidComponent.additionalSpeed = dodgeSpeed;
             dir = Vector3.Lerp(boid.transform.forward, dir, Time.deltaTime);
             dir.Normalize();
 

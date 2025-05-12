@@ -5,7 +5,7 @@ public class Cohension : ICalculate
 {
     public Vector3 Calculate(Transform self, List<Transform> neighbors)
     {
-        if(self == null || neighbors == null) return Vector3.zero;
+        if(self == null || neighbors == null || neighbors.Count == 0) return Vector3.zero;
 
         Vector3 avgPosition = Vector3.zero;
 
