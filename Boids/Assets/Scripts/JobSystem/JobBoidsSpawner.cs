@@ -31,7 +31,7 @@ public class JobBoidsSpawner : MonoBehaviour
     [SerializeField, Range(0f, 5f)] private float separationWeight = 1f;
     [SerializeField, Range(0f, 5f)] private float alignmentWeight = 1f;
     [SerializeField, Range(0f, 5f)] private float cohesionWeight = 1f;
-    [SerializeField, Range(0f, 5f)] private float obstacleWeight = 2f;
+    [SerializeField, Range(0f, 20f)] private float obstacleWeight = 2f;
     [SerializeField, Range(0f, 1f)] private float egoWeight = 0.3f;
     [SerializeField, Range(0f, 5f)] private float boundaryWeight = 1f;
 

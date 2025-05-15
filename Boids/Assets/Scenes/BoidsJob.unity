@@ -310,14 +310,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6512023488085429395, guid: 6c443e2a804854d4fb9cf712d3454829, type: 3}
-  initCount: 1500
-  initRadius: 50
+  initCount: 1000
+  initRadius: 20
   speed: 10
   searchFOV: 270
   cellSize: 3
   separationRadius: 4
   viewRadius: 6
-  boundaryRadius: 50
+  boundaryRadius: 20
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -326,7 +326,7 @@ MonoBehaviour:
   separationWeight: 1
   alignmentWeight: 1.2
   cohesionWeight: 1.2
-  obstacleWeight: 5
+  obstacleWeight: 15
   egoWeight: 0.3
   boundaryWeight: 1
 --- !u!1001 &155979900

@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4766165093861004271, guid: f4cd2b20e2361d5469aa946f622096fa, type: 3}
-  initCount: 2000
+  initCount: 1000
   initRadius: 20
   boidsMaxCount: 50
   detectRadius: 6
@@ -424,7 +424,7 @@ MonoBehaviour:
   speed: 10
   viewAngle: 270
   dodgeObstacleDistance: 5
-  maxRadius: 30
+  maxRadius: 20
   separationWeight: 1.2
   alignmentWeight: 1.2
   cohensionWeight: 1.2
