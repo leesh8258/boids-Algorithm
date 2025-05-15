@@ -1,4 +1,3 @@
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -9,30 +8,32 @@ public class JobBoidsSpawner : MonoBehaviour
 {
     [Header("Spawner Init")]
     [SerializeField] private GameObject prefab;
-    [SerializeField] private int initCount = 100;
-    [SerializeField] private float initRadius = 10f;
+    [SerializeField] private int initCount;
+    [SerializeField] private float initRadius;
 
     [Header("Boid Setting")]
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed;
 
     [Header("Boid Behavior Settings")]
     [SerializeField, Range(0f, 360f)] private float searchFOV = 270f;
     [SerializeField] private float cellSize = 1f;
-    [SerializeField] private float separationRadius = 1.5f;
-    [SerializeField] private float viewRadius = 5f;
+    [SerializeField] private float separationRadius;
+    [SerializeField] private float viewRadius;
 
     [Header("Boundary Settings")]
     [SerializeField] private float boundaryRadius = 20f;
 
     [Header("Obstacle Avoidance")]
-    [SerializeField] private float obstacleDetectDistance = 5f;
     [SerializeField] private LayerMask targetMask;
-    [SerializeField] private float obstacleWeight = 2f;
+    [SerializeField] private float dodgeSpeed = 10f;
+    [SerializeField] private float obstacleDetectDistance = 5f;
 
-    [SerializeField, Range(0f, 5f)] private float separationWeight = 1.5f;
-    [SerializeField, Range(0f, 5f)] private float alignmentWeight = 1.0f;
-    [SerializeField, Range(0f, 5f)] private float cohesionWeight = 1.0f;
+    [SerializeField, Range(0f, 5f)] private float separationWeight = 1f;
+    [SerializeField, Range(0f, 5f)] private float alignmentWeight = 1f;
+    [SerializeField, Range(0f, 5f)] private float cohesionWeight = 1f;
+    [SerializeField, Range(0f, 5f)] private float obstacleWeight = 2f;
     [SerializeField, Range(0f, 1f)] private float egoWeight = 0.3f;
+    [SerializeField, Range(0f, 5f)] private float boundaryWeight = 1f;
 
     private List<GameObject> boids = new List<GameObject>();
 
@@ -68,6 +69,7 @@ public class JobBoidsSpawner : MonoBehaviour
             if (Physics.Raycast(pos, forward, out RaycastHit hit, obstacleDetectDistance, targetMask))
             {
                 avoidVec = hit.normal; // 장애물에서 멀어지는 방향
+                boid.additionalSpeed = dodgeSpeed;
             }
 
             boidDataArray[i] = new BoidData
@@ -94,12 +96,16 @@ public class JobBoidsSpawner : MonoBehaviour
             cellSize = cellSize,
             separationRadius = separationRadius,
             viewRadius = viewRadius,
+
             separationWeight = separationWeight,
             alignmentWeight = alignmentWeight,
             cohesionWeight = cohesionWeight,
-            egoWeight = egoWeight,
-            boundaryRadius = boundaryRadius,
             obstacleWeight = obstacleWeight,
+            boundaryWeight = boundaryWeight,
+            egoWeight = egoWeight,
+
+            boundaryRadius = boundaryRadius,
+
             speed = speed,
             deltaTime = Time.deltaTime,
             searchDotThreshold = dotThreshold,

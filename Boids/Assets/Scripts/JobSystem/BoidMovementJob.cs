@@ -9,22 +9,25 @@ public struct BoidMovementJob : IJobParallelFor
     [ReadOnly] public NativeArray<BoidData> boids;
     [ReadOnly] public NativeParallelMultiHashMap<int, int> gridMap;
 
-    [ReadOnly] public float cellSize;
-    [ReadOnly] public float separationRadius;
-    [ReadOnly] public float viewRadius;
+    [ReadOnly] public float cellSize; //Physics 대체 (boids 그룹)
+    [ReadOnly] public float separationRadius; //Physics 대체 (boids 그룹 중 separation)
+    [ReadOnly] public float viewRadius; // 시야 거리
+
+    //가중치
     [ReadOnly] public float separationWeight;
     [ReadOnly] public float alignmentWeight;
     [ReadOnly] public float cohesionWeight;
     [ReadOnly] public float egoWeight;
-    [ReadOnly] public float boundaryRadius;
     [ReadOnly] public float boundaryWeight;
     [ReadOnly] public float obstacleWeight;
-    [ReadOnly] public float deltaTime;
-    [ReadOnly] public float searchDotThreshold;
-    [ReadOnly] public float speed;
 
-    public NativeArray<float3> positionsOut;
-    public NativeArray<float3> directionsOut;
+    [ReadOnly] public float boundaryRadius; //행동 거리 제한
+    [ReadOnly] public float deltaTime; //시간
+    [ReadOnly] public float searchDotThreshold; //시야각
+    [ReadOnly] public float speed; //속도
+
+    public NativeArray<float3> positionsOut; //transform position 배열
+    public NativeArray<float3> directionsOut; //각 방향벡터 배열
 
     public void Execute(int index)
     {
@@ -87,31 +90,42 @@ public struct BoidMovementJob : IJobParallelFor
             separation = math.normalize(separation / separationCount);
         }
 
-        float3 dir = self.forward;
-        dir += alignment * alignmentWeight;
+        if(neighborCount == 0)
+        {
+            alignment = self.forward;
+        }
+
+        float boidMagnitude;
+        boidMagnitude = math.sqrt(
+            self.position.x * self.position.x +
+            self.position.y * self.position.y +
+            self.position.z * self.position.z
+            );
+
+        float3 dir;
+        dir = alignment * alignmentWeight;
         dir += cohesion * cohesionWeight;
         dir += separation * separationWeight;
-        dir += self.egoNormal * egoWeight;
         dir += self.obstacleAvoidVec * obstacleWeight;
+        dir += self.egoNormal * egoWeight;
+
+        if(boundaryRadius < boidMagnitude)
+        {
+            float3 offset = self.position - float3.zero;
+            float offsetMagnitude = math.sqrt(
+                offset.x * offset.x +
+                offset.y * offset.y +
+                offset.z * offset.z
+                );
+            dir += math.normalize(offset) * (boundaryRadius - offsetMagnitude) * boundaryWeight;
+        }
+
         dir = math.normalize(math.lerp(self.forward, dir, deltaTime));
 
         float3 newPos = self.position + dir * (speed + self.additionalSpeed) * deltaTime;
-        newPos = WrapPosition(newPos);
         positionsOut[index] = newPos;
         directionsOut[index] = dir;
     }
 
-    private float3 WrapPosition(float3 pos)
-    {
-        if (pos.x > boundaryRadius) pos.x = -boundaryRadius;
-        else if (pos.x < -boundaryRadius) pos.x = boundaryRadius;
 
-        if (pos.y > boundaryRadius) pos.y = -boundaryRadius;
-        else if (pos.y < -boundaryRadius) pos.y = boundaryRadius;
-
-        if (pos.z > boundaryRadius) pos.z = -boundaryRadius;
-        else if (pos.z < -boundaryRadius) pos.z = boundaryRadius;
-
-        return pos;
-    }
 }

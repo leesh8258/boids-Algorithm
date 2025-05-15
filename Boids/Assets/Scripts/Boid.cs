@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class Boid : MonoBehaviour
 {
@@ -73,5 +74,7 @@ public class Boid : MonoBehaviour
             }
 
         }
+
     }
+    
 }

@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -320,6 +324,10 @@ PrefabInstance:
     - target: {fileID: 2289111057887911204, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_Name
       value: Obstacle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
@@ -408,25 +416,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4766165093861004271, guid: f4cd2b20e2361d5469aa946f622096fa, type: 3}
-  initCount: 1000
+  initCount: 2000
   initRadius: 20
   boidsMaxCount: 50
   detectRadius: 6
-  separationRadius: 5
+  separationRadius: 4
   speed: 10
-  viewAngle: 120
+  viewAngle: 270
   dodgeObstacleDistance: 5
-  maxRadius: 20
+  maxRadius: 30
   separationWeight: 1.2
-  alignmentWeight: 1
-  cohensionWeight: 1
+  alignmentWeight: 1.2
+  cohensionWeight: 1.2
   obstacleWeight: 15
   egoWeight: 0.3
   boundaryWeight: 3
+  dodgeSpeed: 10
   targetMask:
     serializedVersion: 2
     m_Bits: 128
-  dodgeSpeed: 10
 --- !u!4 &379045210
 Transform:
   m_ObjectHideFlags: 0
@@ -453,6 +461,10 @@ PrefabInstance:
     - target: {fileID: 2289111057887911204, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_Name
       value: Obstacle (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
@@ -660,6 +672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -729,6 +745,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -797,6 +817,10 @@ PrefabInstance:
     - target: {fileID: 2289111057887911204, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_Name
       value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056551396245293374, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8502321360393763947, guid: 180a5b6a994fa4a4bb6a37473950efba, type: 3}
       propertyPath: m_LocalScale.x
