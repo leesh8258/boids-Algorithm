@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+//모든 오브젝트 list 관리하는 곳
+//Sort에서 오브젝트 위치 및 관리
+//그 밑 cs에서 알고리즘 계산하기
 [System.Serializable]
 public class SortElement
 {
@@ -25,13 +28,13 @@ public class SortElement
 public class SortManager : MonoBehaviour
 {
     [Serializable]
-    private struct SortStrcut
+    private struct SortStruct
     {
         public SortType type;
         public Sort sort;
     }
 
-    [SerializeField] private List<SortStrcut> sortStructs;
+    [SerializeField] private List<SortStruct> sortStructs;
     [SerializeField] private TextMeshProUGUI sortName;
     [SerializeField] private GameObject sortPrefab;
 
@@ -48,7 +51,7 @@ public class SortManager : MonoBehaviour
     private void Awake()
     {
         sortDictionary = new Dictionary<SortType, Sort>();
-        foreach(SortStrcut component in sortStructs)
+        foreach(SortStruct component in sortStructs)
         {
             if (component.sort != null) sortDictionary[component.type] = component.sort;
         }
@@ -58,12 +61,12 @@ public class SortManager : MonoBehaviour
     {
         Initialize();
     }
+
     private void Initialize()
     {
         DiscardObjects();
         InstantiateObjects();
-        //그 리스트를 넘겨주는 방식
-        //ExcuteSort();
+        ExecuteSort();
     }
 
     private void DiscardObjects()
@@ -78,6 +81,7 @@ public class SortManager : MonoBehaviour
     private void InstantiateObjects()
     {
         List<float> randomList = new List<float>();
+        Vector3 origin = transform.position + Vector3.left * sortCount / 2 * sortSpace;
         for (int i = 0; i < sortCount; i++)
         {
             randomList.Add(i);
@@ -87,31 +91,33 @@ public class SortManager : MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(0, randomList.Count);
 
-            GameObject prefab = Instantiate(sortPrefab, Vector3.left * sortCount / 2 * sortSpace + Vector3.right * sortSpace * currentSortList.Count, Quaternion.identity);
+            GameObject prefab = Instantiate(sortPrefab, origin + Vector3.right * sortSpace * currentSortList.Count, Quaternion.identity);
+            prefab.transform.SetParent(this.transform);
+
             SortElement sortElement = new SortElement(prefab, randomList[randomIndex]);
             sortElement.prefab.transform.localScale = new Vector3(1, sortElement.value, 1);
             //sortElement.prefab.GetComponentInChildren<AudioSource>().pitch = (2f / sortCount) * sortElement.value;
+
             currentSortList.Add(sortElement);
             randomList.RemoveAt(randomIndex);
 
         }
     }
-    private void ExcuteSort()
+    private void ExecuteSort()
     {
         if (isSorting) return;
 
         if (sortDictionary.TryGetValue(sortType, out Sort currentSort))
         {
             isSorting = true;
+            sortName.text = (sortType.ToString() + " Sort");
             StartCoroutine(Execute(currentSort));
         }
     }
 
-    //여따가 currentList를 넘겨줘야함.
     private IEnumerator Execute(Sort currentSort)
     {
-        currentSort.ExecuteSort();
-        yield return new WaitUntil(() => currentSort.isSorting);
+        yield return StartCoroutine(currentSort.ExecuteSort(currentSortList, sortSpeed));
         isSorting = false;
     }
 }
